@@ -6,17 +6,27 @@ import 'package:task/features/Requests/data/models/requests_response/save_custom
 import 'package:task/features/Requests/data/repository_impl/requests_repo.dart';
 
 part 'requests_state.dart';
+
 @injectable
 class RequestsCubit extends Cubit<RequestsState> {
   RequestsCubit(this._requestsRepo) : super(RequestsInitial());
   final RequestsRepo _requestsRepo;
-
-  Future<void> saveCustomerRequest({String? date, String? payeeName, String? notes, String? deliveryTypeCode, String? typeCode}) async {
+ List<SaveCustomerRequest> allRequests = [];
+  Future<void> saveCustomerRequest(
+      {String? date,
+      String? payeeName,
+      String? notes,
+      String? deliveryTypeCode,
+      String? typeCode}) async {
     emit(SaveCustomerRequestLoading());
-    final response = await _requestsRepo.saveCustomerRequest(date, payeeName, notes, deliveryTypeCode, typeCode);
+    final response = await _requestsRepo.saveCustomerRequest(
+        date, payeeName, notes, deliveryTypeCode, typeCode);
     response.fold(
       (faluire) => emit(SaveCustomerRequestFailed(faluire.message)),
-      (requestt) => emit(SaveCustomerRequestSuccess(requestt)),
+      (requestt) {
+        allRequests.add(requestt);
+        emit(SaveCustomerRequestSuccess(requestt));
+      },
     );
   }
 }

@@ -21,6 +21,7 @@ class RequestsDataSourceImpl implements RequestsDataSource {
       mutation SaveCustomerRequest(\$input: CustomerRequestInput!) {
   saveCustomerRequest(input: \$input) {  
   date
+  id
   status {
     name
   }

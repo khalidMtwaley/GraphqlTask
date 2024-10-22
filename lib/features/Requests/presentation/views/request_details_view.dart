@@ -3,9 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:task/core/theme/colors_manager.dart';
 import 'package:task/core/theme/styles.dart';
 import 'package:task/core/utils/extensions/widget_extensions.dart';
-import 'package:task/features/Requests/data/models/requests_response/requests_response.dart';
 import 'package:task/features/Requests/data/models/requests_response/save_customer_request.dart';
-import 'package:task/features/Requests/presentation/views/create_requests_view.dart';
 
 class RequestDetailsView extends StatefulWidget {
   const RequestDetailsView({super.key});
@@ -42,6 +40,26 @@ class _RequestDetailsViewState extends State<RequestDetailsView> {
       backgroundColor: ColorsManager.black,
       body: Column(
         children: [
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: 'Request: ', 
+                  style: Styles.Rubic400(
+                    fontSize: 16.sp,
+                    color: ColorsManager.grey,
+                  ),
+                ),
+                TextSpan(
+                  text: request.id.toString(), 
+                  style: Styles.Rubic400(
+                    fontSize: 16.sp,
+                    color: ColorsManager.red,
+                  ),
+                ),
+              ],
+            ),
+          ),
           30.verticalSpace,
           Container(
             padding: EdgeInsets.all(15.w),
@@ -72,9 +90,9 @@ class _RequestDetailsViewState extends State<RequestDetailsView> {
                       style: Styles.Rubic400(
                           fontSize: 14, color: ColorsManager.grey),
                     ),
-                    10.verticalSpace,
+                    3.verticalSpace,
                     Text(
-                      request.date ?? "",
+                      request.date!.substring(0, 10),
                       style: Styles.Rubic400(
                           fontSize: 14, color: ColorsManager.grey),
                     ),
@@ -84,25 +102,25 @@ class _RequestDetailsViewState extends State<RequestDetailsView> {
                       style: Styles.Rubic400(
                           fontSize: 14, color: ColorsManager.grey),
                     ),
-                    10.verticalSpace,
+                    3.verticalSpace,
                     Text(
                       request.deliveryType?.name ?? "",
                       style: Styles.Rubic400(
                           fontSize: 14, color: ColorsManager.grey),
                     ),
-                    10.verticalSpace,
+                    12.verticalSpace,
                     Text(
                       "notes",
                       style: Styles.Rubic400(
                           fontSize: 14, color: ColorsManager.grey),
                     ),
-                    10.verticalSpace,
+                    3.verticalSpace,
                     Text(
                       request.notes ?? "",
                       style: Styles.Rubic400(
                           fontSize: 14, color: ColorsManager.grey),
                     ),
-                    10.verticalSpace,
+                    12.verticalSpace,
                   ],
                 ),
                 Column(
@@ -119,19 +137,18 @@ class _RequestDetailsViewState extends State<RequestDetailsView> {
                       style: Styles.Rubic400(
                           fontSize: 14, color: ColorsManager.grey),
                     ),
-                    10.verticalSpace,
+                    12.verticalSpace,
                     Text(
                       "request type",
                       style: Styles.Rubic400(
                           fontSize: 14, color: ColorsManager.grey),
                     ),
-                    10.verticalSpace,
+                    3.verticalSpace,
                     Text(
                       request.type?.name ?? "",
                       style: Styles.Rubic400(
                           fontSize: 14, color: ColorsManager.grey),
                     ),
-                    10.verticalSpace,
                   ],
                 ),
               ],

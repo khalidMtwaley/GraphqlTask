@@ -12,6 +12,7 @@ import 'package:task/core/utils/extensions/widget_extensions.dart';
 import 'package:task/core/utils/widgets/custom_localized_button_with_icon.dart';
 import 'package:task/core/utils/widgets/custom_text_form_field.dart';
 import 'package:task/features/Requests/presentation/blocs/cubit/requests_cubit.dart';
+import 'package:task/features/Requests/presentation/views/all_requests_view.dart';
 import 'package:task/features/Requests/presentation/views/request_details_view.dart';
 import 'package:task/features/Requests/presentation/widgets/cusom_drop_down.dart';
 import 'package:task/features/Requests/presentation/widgets/custom_date_picker.dart';
@@ -46,7 +47,7 @@ class _CreateRequestsViewState extends State<CreateRequestsView> {
             if (state is SaveCustomerRequestSuccess) {
               Fluttertoast.showToast(
                   msg: "Saved successfully", backgroundColor: Colors.green);
-              Navigator.of(context).pushNamed(RequestDetailsView.routeName, arguments: state.RequestDeatails);
+              Navigator.of(context).pushNamed(AllRequestsView.routeName, arguments: context.read<RequestsCubit>().allRequests);
             } else if (state is SaveCustomerRequestFailed) {
               Fluttertoast.showToast(
                   msg: state.message, backgroundColor: ColorsManager.red);
@@ -78,7 +79,7 @@ class _CreateRequestsViewState extends State<CreateRequestsView> {
                   10.verticalSpace,
                   
                   CustomDropdown(
-                    
+
                     hintText: "Delivery type",
                     items: ["OFFICE", "DELIVERYAGENT", "WALLET", "BANK", "INSTPY"],
                     onItemSelected: (value) {
@@ -106,7 +107,7 @@ class _CreateRequestsViewState extends State<CreateRequestsView> {
                             backgroundColor: ColorsManager.red,
                           ),
                           onPressed: () {
-                            if (selectedDate != null && selectedTypeCode != null && selectedDeliveryTypeCode != null) {
+                            if (selectedDate != null && selectedTypeCode != null && selectedDeliveryTypeCode != null&& payeeController.text.isNotEmpty && noteController.text.isNotEmpty) {
                               final formattedDate = formatDate(selectedDate!);
 
                               context.read<RequestsCubit>().saveCustomerRequest(
