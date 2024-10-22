@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:task/core/theme/colors_manager.dart';
+import 'package:task/core/theme/styles.dart';
+import 'package:task/features/Requests/presentation/views/create_requests_view.dart';
 
 class CustomDropdown extends StatefulWidget {
   final List<String> items;
@@ -49,16 +52,33 @@ class _CustomDropdownState extends State<CustomDropdown> {
           ),
           child: StatefulBuilder(
             builder: (BuildContext context, StateSetter setStateModal) {
-              return SizedBox(
-                height: MediaQuery.of(context).size.height * 0.5,
+              return Container(
+                color: ColorsManager.darkGrey,
+                height: MediaQuery.of(context).size.height * 0.4,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    10.verticalSpace,
+                    Text(
+                      'Request type',
+                      style: Styles.Rubic500(
+                        fontSize: 20,
+                        color: ColorsManager.grey,
+                      ),
+                    ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(15.0),
                       child: TextField(
+                        style: Styles.Rubic400(
+                          fontSize: 14,
+                          color: ColorsManager.grey,
+                        ),
                         controller: _searchController,
                         decoration: InputDecoration(
+                          hintStyle: Styles.Rubic400(
+                            fontSize: 14,
+                            color: ColorsManager.grey,
+                          ),
                           hintText: 'Search',
                           border: OutlineInputBorder(),
                         ),
@@ -74,7 +94,11 @@ class _CustomDropdownState extends State<CustomDropdown> {
                         itemCount: _filteredItems.length,
                         itemBuilder: (context, index) {
                           return ListTile(
-                            title: Text(_filteredItems[index]),
+                            title: Text(
+                              _filteredItems[index],
+                              style: Styles.Rubic500(
+                                  fontSize: 13, color: ColorsManager.grey),
+                            ),
                             onTap: () {
                               setState(() {
                                 _selectedItem = _filteredItems[index];

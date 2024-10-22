@@ -78,6 +78,7 @@ class _CreateRequestsViewState extends State<CreateRequestsView> {
                   10.verticalSpace,
                   
                   CustomDropdown(
+                    
                     hintText: "Delivery type",
                     items: ["OFFICE", "DELIVERYAGENT", "WALLET", "BANK", "INSTPY"],
                     onItemSelected: (value) {
