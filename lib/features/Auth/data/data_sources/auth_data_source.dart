@@ -6,7 +6,6 @@ import 'package:task/core/error/exception.dart';
 import 'package:task/core/graphql_client.dart';
 import 'package:task/features/Auth/data/models/login_response/login.dart';
 
-
 abstract class AuthDataSource {
   Future<Login> login(String? username, String? password);
 }

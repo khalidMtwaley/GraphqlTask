@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,18 +16,18 @@ import 'package:task/features/Requests/presentation/views/request_details_view.d
 import 'package:task/features/Requests/presentation/widgets/cusom_drop_down.dart';
 import 'package:task/features/Requests/presentation/widgets/custom_date_picker.dart';
 
-class CreateRequestsView extends StatefulWidget {
-  const CreateRequestsView({super.key});
+class SaveRequestsView extends StatefulWidget {
+  const SaveRequestsView({super.key});
   static const String routeName = '/create-requests';
 
   @override
-  State<CreateRequestsView> createState() => _CreateRequestsViewState();
+  State<SaveRequestsView> createState() => _SaveRequestsViewState();
 }
 
-class _CreateRequestsViewState extends State<CreateRequestsView> {
+class _SaveRequestsViewState extends State<SaveRequestsView> {
   final TextEditingController payeeController = TextEditingController();
   final TextEditingController noteController = TextEditingController();
-  
+
   String? selectedTypeCode;
   String? selectedDeliveryTypeCode;
   DateTime? selectedDate;
@@ -47,7 +46,8 @@ class _CreateRequestsViewState extends State<CreateRequestsView> {
             if (state is SaveCustomerRequestSuccess) {
               Fluttertoast.showToast(
                   msg: "Saved successfully", backgroundColor: Colors.green);
-              Navigator.of(context).pushNamed(AllRequestsView.routeName, arguments: context.read<RequestsCubit>().allRequests);
+              Navigator.of(context).pushNamed(AllRequestsView.routeName,
+                  arguments: context.read<RequestsCubit>().allRequests);
             } else if (state is SaveCustomerRequestFailed) {
               Fluttertoast.showToast(
                   msg: state.message, backgroundColor: ColorsManager.red);
@@ -59,47 +59,44 @@ class _CreateRequestsViewState extends State<CreateRequestsView> {
               child: Column(
                 children: [
                   40.verticalSpace,
-                  
                   CustomCalendarDatePicker(
                     onDateSelected: (date) {
-                      selectedDate = date; 
+                      selectedDate = date;
                     },
                   ),
-
                   10.verticalSpace,
-                  
                   CustomDropdown(
                     hintText: "Request type",
                     items: ["PMNT", "RTRN", "MTRL"],
                     onItemSelected: (value) {
-                      selectedTypeCode = value; 
+                      selectedTypeCode = value;
                     },
                   ),
-                  
                   10.verticalSpace,
-                  
                   CustomDropdown(
-
                     hintText: "Delivery type",
-                    items: ["OFFICE", "DELIVERYAGENT", "WALLET", "BANK", "INSTPY"],
+                    items: [
+                      "OFFICE",
+                      "DELIVERYAGENT",
+                      "WALLET",
+                      "BANK",
+                      "INSTPY"
+                    ],
                     onItemSelected: (value) {
-                      selectedDeliveryTypeCode = value; 
+                      selectedDeliveryTypeCode = value;
                     },
                   ),
-                  
                   10.verticalSpace,
                   CustomTextFormField(
                     controller: payeeController,
                     label: Text("Payee name"),
                   ),
-                  
                   10.verticalSpace,
                   CustomTextFormField(
                     label: Text("Notes"),
                     controller: noteController,
                     maxLines: 10,
                   ),
-                  
                   20.verticalSpace,
                   state is! SaveCustomerRequestLoading
                       ? LocalizedElevatedButtonIcon(
@@ -107,7 +104,11 @@ class _CreateRequestsViewState extends State<CreateRequestsView> {
                             backgroundColor: ColorsManager.red,
                           ),
                           onPressed: () {
-                            if (selectedDate != null && selectedTypeCode != null && selectedDeliveryTypeCode != null&& payeeController.text.isNotEmpty && noteController.text.isNotEmpty) {
+                            if (selectedDate != null &&
+                                selectedTypeCode != null &&
+                                selectedDeliveryTypeCode != null &&
+                                payeeController.text.isNotEmpty &&
+                                noteController.text.isNotEmpty) {
                               final formattedDate = formatDate(selectedDate!);
 
                               context.read<RequestsCubit>().saveCustomerRequest(
@@ -119,7 +120,8 @@ class _CreateRequestsViewState extends State<CreateRequestsView> {
                                   );
                             } else {
                               Fluttertoast.showToast(
-                                  msg: "Please fill in all fields", backgroundColor: ColorsManager.red);
+                                  msg: "Please fill in all fields",
+                                  backgroundColor: ColorsManager.red);
                             }
                           },
                           label: Text(

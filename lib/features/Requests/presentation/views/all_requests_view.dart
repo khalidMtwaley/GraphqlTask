@@ -74,9 +74,7 @@ class AllRequestsView extends StatelessWidget {
                           ],
                         ),
                       ),
-                    )
-           
-                    );
+                    ));
               },
             )
           : Center(

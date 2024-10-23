@@ -9,7 +9,7 @@ class DateSelectorListTile extends StatefulWidget {
 }
 
 class _DateSelectorListTileState extends State<DateSelectorListTile> {
-  DateTime _selectedDate = DateTime.now(); 
+  DateTime _selectedDate = DateTime.now();
 
   void _showCalendarPicker(BuildContext context) async {
     await showDialog(
@@ -45,7 +45,6 @@ class _DateSelectorListTileState extends State<DateSelectorListTile> {
                 day: _selectedDate.day,
               ),
               onChangeDateTime: (calendarDateTime) {
-              
                 setState(() {
                   _selectedDate = calendarDateTime.toDateTime();
                 });

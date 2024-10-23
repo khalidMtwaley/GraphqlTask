@@ -1,19 +1,20 @@
-
 import 'package:flutter/material.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:task/core/theme/colors_manager.dart';
 
 class CustomCalendarDatePicker extends StatefulWidget {
-  final Function(DateTime?)? onDateSelected; 
+  final Function(DateTime?)? onDateSelected;
 
-  const CustomCalendarDatePicker({Key? key, this.onDateSelected}) : super(key: key);
+  const CustomCalendarDatePicker({Key? key, this.onDateSelected})
+      : super(key: key);
 
   @override
-  _CustomCalendarDatePickerState createState() => _CustomCalendarDatePickerState();
+  _CustomCalendarDatePickerState createState() =>
+      _CustomCalendarDatePickerState();
 }
 
 class _CustomCalendarDatePickerState extends State<CustomCalendarDatePicker> {
-  List<DateTime?> _selectedDates = [DateTime.now()]; 
+  List<DateTime?> _selectedDates = [DateTime.now()];
 
   @override
   void initState() {
