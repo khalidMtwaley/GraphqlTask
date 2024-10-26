@@ -6,6 +6,7 @@ import 'package:task/core/bloc_observer/app_bloc_observer.dart';
 import 'package:task/core/di/service_locator.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:task/core/routes/app_routes.dart';
+import 'package:task/core/theme/theme.dart';
 import 'package:task/features/Auth/presentation/blocs/cubit/auth_cubit.dart';
 import 'package:task/features/Auth/presentation/views/login_view.dart';
 import 'package:task/features/Requests/presentation/blocs/cubit/requests_cubit.dart';
@@ -31,9 +32,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => sl.get<AuthCubit>(),
         ),
-        BlocProvider(
-          create: (context) => sl.get<RequestsCubit>(),
-        ),
+        // BlocProvider(
+        //   create: (context) => sl.get<RequestsCubit>(),
+        // ),
       ],
       child: ScreenUtilInit(
         designSize: const Size(375, 812),
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         child: Builder(builder: (context) {
           return MaterialApp(
+            theme: AppTheme.darkThemeMode,
             debugShowCheckedModeBanner: false,
             routes: AppRoutes.routes,
             initialRoute: LoginView.routeName,

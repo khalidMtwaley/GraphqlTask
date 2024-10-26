@@ -1,8 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:task/core/theme/colors_manager.dart';
 import 'package:task/core/theme/styles.dart';
-import 'package:task/features/Requests/presentation/views/save_requests_view.dart';
 
 class CustomDropdown extends StatefulWidget {
   final List<String> items;
@@ -17,10 +17,10 @@ class CustomDropdown extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CustomDropdownState createState() => _CustomDropdownState();
+  CustomDropdownState createState() => CustomDropdownState();
 }
 
-class _CustomDropdownState extends State<CustomDropdown> {
+class CustomDropdownState extends State<CustomDropdown> {
   String? _selectedItem;
   TextEditingController _searchController = TextEditingController();
   List<String> _filteredItems = [];
@@ -30,6 +30,13 @@ class _CustomDropdownState extends State<CustomDropdown> {
   void initState() {
     super.initState();
     _filteredItems = widget.items;
+  }
+
+  void setItems(List<String> newItems) {
+    setState(() {
+      _filteredItems = newItems;
+      _selectedItem = null;
+    });
   }
 
   void _filterItems(String query) {
@@ -54,13 +61,13 @@ class _CustomDropdownState extends State<CustomDropdown> {
             builder: (BuildContext context, StateSetter setStateModal) {
               return Container(
                 color: ColorsManager.darkGrey,
-                height: MediaQuery.of(context).size.height * 0.4,
+                height: MediaQuery.of(context).size.height * 0.5,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    10.verticalSpace,
+                    SizedBox(height: 10.h),
                     Text(
-                      'Request type',
+                      widget.hintText,
                       style: Styles.Rubic500(
                         fontSize: 20,
                         color: ColorsManager.grey,

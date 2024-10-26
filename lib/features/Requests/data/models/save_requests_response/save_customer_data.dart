@@ -12,7 +12,5 @@ class Data {
                 json['saveCustomerRequest'] as Map<String, dynamic>),
       );
 
-  Map<String, dynamic> toJson() => {
-        'saveCustomerRequest': saveCustomerRequest?.toJson(),
-      };
+
 }

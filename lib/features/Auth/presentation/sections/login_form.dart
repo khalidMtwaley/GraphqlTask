@@ -10,6 +10,7 @@ import 'package:task/core/utils/widgets/custom_text_form_field.dart';
 import 'package:task/features/Auth/presentation/blocs/cubit/auth_cubit.dart';
 import 'package:task/features/Auth/presentation/blocs/cubit/auth_state.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:task/features/Requests/presentation/views/home_screen.dart';
 import 'package:task/features/Requests/presentation/views/save_requests_view.dart';
 
 class LoginForm extends StatefulWidget {
@@ -34,10 +35,9 @@ class _LoginFormState extends State<LoginForm> {
             backgroundColor: Colors.green,
           );
           Navigator.of(context)
-              .pushReplacementNamed(SaveRequestsView.routeName);
+              .pushReplacementNamed(HomeScreen.routeName);
         } else if (state is LoginError) {
           Fluttertoast.showToast(
-            // msg: "invalid username or password",
             msg: state.message,
             backgroundColor: ColorsManager.red,
           );

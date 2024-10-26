@@ -10,7 +10,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
-import 'package:task/core/graphql_client.dart' as _i530;
+import 'package:task/core/graphql_client/graphql_client.dart' as _i328;
 import 'package:task/features/Auth/data/data_sources/auth_data_source.dart'
     as _i775;
 import 'package:task/features/Auth/data/repositories_impl/auth_repo.dart'
@@ -18,7 +18,7 @@ import 'package:task/features/Auth/data/repositories_impl/auth_repo.dart'
 import 'package:task/features/Auth/presentation/blocs/cubit/auth_cubit.dart'
     as _i788;
 import 'package:task/features/Requests/data/data_source/requests_data_source.dart'
-    as _i689;
+    as _i983;
 import 'package:task/features/Requests/data/repository_impl/requests_repo.dart'
     as _i219;
 import 'package:task/features/Requests/presentation/blocs/cubit/requests_cubit.dart'
@@ -35,17 +35,17 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    gh.singleton<_i530.GraphQLService>(() => _i530.GraphQLService());
-    gh.singleton<_i689.RequestsDataSource>(
-        () => _i689.RequestsDataSourceImpl(gh<_i530.GraphQLService>()));
+    gh.singleton<_i328.GraphQLService>(() => _i328.GraphQLService());
     gh.singleton<_i775.AuthDataSource>(
-        () => _i775.AuthDataSourceImpl(gh<_i530.GraphQLService>()));
-    gh.singleton<_i19.AuthRepo>(
-        () => _i19.AuthRepoImpl(gh<_i775.AuthDataSource>()));
+        () => _i775.AuthDataSourceImpl(gh<_i328.GraphQLService>()));
+    gh.singleton<_i983.RequestsDataSource>(
+        () => _i983.RequestsDataSourceImpl(gh<_i328.GraphQLService>()));
     gh.singleton<_i219.RequestsRepo>(
-        () => _i219.RequestsRepoImpl(gh<_i689.RequestsDataSource>()));
+        () => _i219.RequestsRepoImpl(gh<_i983.RequestsDataSource>()));
     gh.factory<_i728.RequestsCubit>(
         () => _i728.RequestsCubit(gh<_i219.RequestsRepo>()));
+    gh.singleton<_i19.AuthRepo>(
+        () => _i19.AuthRepoImpl(gh<_i775.AuthDataSource>()));
     gh.lazySingleton<_i788.AuthCubit>(
         () => _i788.AuthCubit(gh<_i19.AuthRepo>()));
     return this;

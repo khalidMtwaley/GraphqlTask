@@ -92,7 +92,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         labelStyle: TextStyle(
           color: ColorsManager.grey,
         ),
-        fillColor: ColorsManager.darkGrey, // Always green fill color
+        fillColor: ColorsManager.darkGrey, // Always  fill color
         filled: true,
         suffixIcon: widget.isPassword
             ? IconButton(
