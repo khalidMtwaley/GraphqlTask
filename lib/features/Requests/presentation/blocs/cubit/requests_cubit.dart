@@ -1,4 +1,6 @@
+
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:task/features/Requests/data/models/all_requests_response/all_requests_response/list_customer_requests.dart';
@@ -18,8 +20,6 @@ class RequestsCubit extends Cubit<RequestsState> {
   bool hasMore = true;
   bool isLoadingMore = false;
   List<RequestModel> allRequests = [];
-
-
 
   Future<void> getAllRequests({
     String? codeType,
@@ -51,26 +51,9 @@ class RequestsCubit extends Cubit<RequestsState> {
     );
   }
 
-  // Future<void> saveCustomerRequest(
-
-  //     {
-  //       String? date,
-  //     String? payeeName,
-  //     String? notes,
-  //     String? deliveryTypeCode,
-  //     String? typeCode}) async {
-  //   emit(SaveCustomerRequestLoading());
-  //   final response = await _requestsRepo.saveCustomerRequest(
-
-  //     date, payeeName, notes, deliveryTypeCode, typeCode);
-  //   response.fold(
-  //     (faluire) => emit(SaveCustomerRequestFailed(faluire.message)),
-  //     (requestt) {
-  //       emit(SaveCustomerRequestSuccess(requestt));
-  //     },
-  //   );
-  // }
-    Future<void> saveCustomerRequest({
+  Future<void> saveCustomerRequest({
+    int ?bankId,
+    String ?accountNumber,
     String? date,
     String? payeeName,
     String? notes,
@@ -79,10 +62,14 @@ class RequestsCubit extends Cubit<RequestsState> {
   }) async {
     emit(SaveCustomerRequestLoading());
     final response = await _requestsRepo.saveCustomerRequest(
+        bankId, accountNumber,
         date, payeeName, notes, deliveryTypeCode, typeCode);
     response.fold(
       (failure) => emit(SaveCustomerRequestFailed(failure.message)),
-      (request) => emit(SaveCustomerRequestSuccess(request)),
+      (request) {
+        emit(SaveCustomerRequestSuccess(request));
+        getAllRequests(); 
+      },
     );
   }
 
@@ -90,29 +77,13 @@ class RequestsCubit extends Cubit<RequestsState> {
     emit(CancelCustomerRequestLoading());
     final response = await _requestsRepo.cancelCustomerRequest(id, status);
     response.fold(
-      (faluire) => emit(CancelCustomerRequestFailed(faluire.message)),
+      (failure) => emit(CancelCustomerRequestFailed(failure.message)),
       (request) {
         emit(CancelCustomerRequestSuccess(request));
+        getAllRequests(); 
       },
     );
   }
-  // Future<void> updateCustomerRequest(
-  //     {int? id,
-  //       String? date,
-  //       String? payeeName,
-  //       String? notes,
-  //       String? deliveryTypeCode,
-  //       String? typeCode}) async {
-  //   emit(UpdateCustomerRequestLoading());
-  //   final response = await _requestsRepo.updateCustomerRequest(
-  //       id, date, payeeName, notes, deliveryTypeCode, typeCode);
-  //   response.fold(
-  //         (faluire) => emit(UpdateCustomerRequestFailed(faluire.message)),
-  //         (request) {
-  //       emit(UpdateCustomerRequestSuccess(request));
-  //     },
-  //   );
-  // }
 
   Future<void> updateCustomerRequest({
     int? id,
@@ -127,7 +98,10 @@ class RequestsCubit extends Cubit<RequestsState> {
         id, date, payeeName, notes, deliveryTypeCode, typeCode);
     response.fold(
       (failure) => emit(UpdateCustomerRequestFailed(failure.message)),
-      (request) => emit(UpdateCustomerRequestSuccess(request)),
+      (request) {
+        emit(UpdateCustomerRequestSuccess(request));
+        getAllRequests(); 
+      },
     );
   }
 }

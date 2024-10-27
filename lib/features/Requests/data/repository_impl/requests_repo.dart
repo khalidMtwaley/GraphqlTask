@@ -12,6 +12,8 @@ import 'package:task/features/Requests/data/models/save_requests_response/save_c
 abstract class RequestsRepo {
   Future <Either<Failure,List <RequestModel>>>getAllRequests(int? page, String? codeType);
   Future<Either<Failure, SaveCustomerRequest>> saveCustomerRequest(
+    int ?bankId,
+    String ?accountNumber,
       String? date,
       String? payeeName,
       String? notes,
@@ -37,6 +39,8 @@ class RequestsRepoImpl implements RequestsRepo {
 
   @override
   Future<Either<Failure, SaveCustomerRequest>> saveCustomerRequest(
+    int ?bankId,
+    String ?accountNumber,
       String? date,
       String? payeeName,
       String? notes,
@@ -45,6 +49,8 @@ class RequestsRepoImpl implements RequestsRepo {
     try {
       final saveCustomerRequestResponse =
           await _requestsDataSource.saveCustomerRequest(
+            bankId,
+            accountNumber,
               date, payeeName, notes, deliveryTypeCode, typeCode);
       return Right(saveCustomerRequestResponse);
     } on AppException catch (e) {

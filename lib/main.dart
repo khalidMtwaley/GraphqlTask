@@ -32,9 +32,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => sl.get<AuthCubit>(),
         ),
-        // BlocProvider(
-        //   create: (context) => sl.get<RequestsCubit>(),
-        // ),
+        BlocProvider(
+          create: (context) => sl.get<RequestsCubit>(),
+        ),
       ],
       child: ScreenUtilInit(
         designSize: const Size(375, 812),

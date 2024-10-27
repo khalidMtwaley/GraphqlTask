@@ -43,14 +43,27 @@ class SaveRequestsView extends StatefulWidget {
 class _SaveRequestsViewState extends State<SaveRequestsView> {
   final TextEditingController payeeController = TextEditingController();
   final TextEditingController noteController = TextEditingController();
+  final TextEditingController bankNumberController = TextEditingController();
+  final TextEditingController walletNumberController = TextEditingController();
+  final TextEditingController instaPayNumberController =
+      TextEditingController();
 
   String? selectedTypeCode;
   String? selectedDeliveryTypeCode;
   DateTime? selectedDate;
   final formKey = GlobalKey<FormState>();
-
+  int? bankIndex; 
   final GlobalKey<CustomDropdownState> _deliveryDropdownKey =
       GlobalKey<CustomDropdownState>();
+
+  final List<String> bankNames = [
+    "البنك التجاري الدولي",
+    "البنك الاهلي المصري",
+    "بنك الاسكان والتعمير",
+    "بنك الاسكندريه",
+    "البنك العربي الافريقي",
+    "بنك عوده"
+  ];
 
   @override
   void initState() {
@@ -119,7 +132,8 @@ class _SaveRequestsViewState extends State<SaveRequestsView> {
                         onItemSelected: (value) {
                           setState(() {
                             selectedTypeCode = value;
-                            selectedDeliveryTypeCode = null; // Reset delivery type selection
+                            selectedDeliveryTypeCode = null;
+                            bankIndex = null; 
                             _deliveryDropdownKey.currentState
                                 ?.setItems(getFilteredDeliveryTypes(value));
                           });
@@ -136,6 +150,42 @@ class _SaveRequestsViewState extends State<SaveRequestsView> {
                           });
                         },
                       ),
+                      10.verticalSpace,
+                      if (selectedDeliveryTypeCode == "BANK") ...[
+                        CustomTextFormField(
+                          readonly: true,
+                          keyboardType: TextInputType.number,
+                          controller: bankNumberController,
+                          label: Text("Bank Number"),
+                         
+                        ),
+                        10.verticalSpace,
+                        CustomDropdown(
+                          hintText: "Select Bank",
+                          items: bankNames,
+                          onItemSelected: (value) {
+                            setState(() {
+                              bankIndex = bankNames.indexOf(value!) + 1;
+                            });
+                          },
+                        ),
+                      ],
+                      if (selectedDeliveryTypeCode == "WALLET")
+                        CustomTextFormField(
+                          readonly: true,
+                          controller: walletNumberController,
+                          label: Text("Wallet Number"),
+                        ),
+                      if (selectedDeliveryTypeCode == "INSTPY")
+                        CustomTextFormField(
+                          readonly: true,
+                          prefix: const Icon(
+                            Icons.credit_card,
+                            color: ColorsManager.grey,
+                          ),
+                          controller: instaPayNumberController,
+                          label: Text("Insta Pay Number"),
+                        ),
                       10.verticalSpace,
                       CustomTextFormField(
                         validator: (value) {
@@ -163,33 +213,51 @@ class _SaveRequestsViewState extends State<SaveRequestsView> {
                       state is! SaveCustomerRequestLoading &&
                               state is! UpdateCustomerRequestLoading
                           ? LocalizedElevatedButtonIcon(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorsManager.red,
-                              ),
                               onPressed: () {
                                 if (formKey.currentState!.validate() &&
                                     selectedDate != null &&
                                     selectedTypeCode != null &&
                                     selectedDeliveryTypeCode != null) {
-                                  final formattedDate = formatDate(selectedDate!);
+                                  final formattedDate =
+                                      formatDate(selectedDate!);
 
-                                  context.read<RequestsCubit>().saveCustomerRequest(
-                                        date: formattedDate,
-                                        payeeName: payeeController.text,
-                                        notes: noteController.text,
-                                        deliveryTypeCode: selectedDeliveryTypeCode,
-                                        typeCode: selectedTypeCode,
-                                      );
+                                  if (widget.requestId != null) {
+                                    context
+                                        .read<RequestsCubit>()
+                                        .updateCustomerRequest(
+
+                                          id: widget.requestId,
+                                          date: formattedDate,
+                                          payeeName: payeeController.text,
+                                          notes: noteController.text,
+                                          deliveryTypeCode:
+                                              selectedDeliveryTypeCode,
+                                          typeCode: selectedTypeCode,
+                                          // bankIndex: bankIndex, // Pass bank index
+                                        );
+                                  } else {
+                                    context
+                                        .read<RequestsCubit>()
+                                        .saveCustomerRequest(
+                                          bankId: bankIndex,
+                                          accountNumber: bankNumberController.text,
+                                          date: formattedDate,
+                                          payeeName: payeeController.text,
+                                          notes: noteController.text,
+                                          deliveryTypeCode:
+                                              selectedDeliveryTypeCode,
+                                          typeCode: selectedTypeCode,
+                                          // bankIndex: bankIndex, // Pass bank index
+                                        );
+                                  }
                                 } else {
                                   Fluttertoast.showToast(
-                                      msg: "Please fill in all fields",
-                                      backgroundColor: ColorsManager.red);
+                                    msg: "Please fill in all fields",
+                                    backgroundColor: ColorsManager.red,
+                                  );
                                 }
                               },
-                              label: Text(
-                                "Save",
-                                style: Styles.ButtomStyle(),
-                              ),
+                              label: Text("Save", style: Styles.ButtomStyle()),
                               icon: Icons.check_circle,
                             )
                           : SpinKitFadingCircle(

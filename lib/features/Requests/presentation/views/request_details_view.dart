@@ -35,6 +35,7 @@ class _RequestDetailsViewState extends State<RequestDetailsView> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => SaveRequestsView(
+                      
                       requestId: request.id,
                       initialPayeeName: request.payeeName,
                       initialNotes: request.notes,
@@ -209,6 +210,7 @@ class _RequestDetailsViewState extends State<RequestDetailsView> {
                                   id: request.id,
                                   status: "CANCELLED",
                                 );
+                                // context.read<RequestsCubit>().getAllRequests();
                           },
                           label: Text(
                             "Cancel",

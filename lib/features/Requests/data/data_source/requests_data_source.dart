@@ -8,6 +8,9 @@ import 'package:task/features/Requests/data/models/save_requests_response/save_c
 
 abstract class RequestsDataSource {
   Future<SaveCustomerRequest> saveCustomerRequest(
+    int ?bankId,
+    String ?accountNumber,
+
       String? date,
       String? payeeName,
       String? notes,
@@ -33,6 +36,8 @@ class RequestsDataSourceImpl implements RequestsDataSource {
 
   @override
   Future<SaveCustomerRequest> saveCustomerRequest(
+    int ?bankId,
+    String ?accountNumber,
       String? date,
       String? payeeName,
       String? notes,
@@ -49,6 +54,8 @@ class RequestsDataSourceImpl implements RequestsDataSource {
 
     final variables = {
       'input': {
+        'paymentBankId': bankId??null,
+        'paymentAccountNumber': accountNumber??null,
         'date': date,
         'payeeName': payeeName,
         'notes': notes,

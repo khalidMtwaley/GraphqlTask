@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:task/core/di/service_locator.dart';
 import 'package:task/core/theme/colors_manager.dart';
+import 'package:task/core/theme/styles.dart';
 import 'package:task/features/Requests/presentation/blocs/cubit/requests_cubit.dart';
 import 'package:task/features/Requests/presentation/widgets/new_request_item.dart';
 

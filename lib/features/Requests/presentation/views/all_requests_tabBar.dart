@@ -9,7 +9,7 @@ import 'package:task/features/Requests/presentation/sections/materials_requests_
 import 'package:task/features/Requests/presentation/sections/payment_requests_section.dart';
 import 'package:task/features/Requests/presentation/sections/returns_requests_section.dart';
 import 'package:task/features/Requests/presentation/views/home_screen.dart';
-import 'package:task/main.dart';
+import 'package:task/features/Requests/presentation/views/save_requests_view.dart';
 
 class AllRequestsTabBar extends StatefulWidget {
   final String? initialCode;
@@ -29,11 +29,9 @@ class _AllRequestsTabBarState extends State<AllRequestsTabBar>
   @override
   void initState() {
     super.initState();
-    sl.get<RequestsCubit>()..getAllRequests(codeType: "PMNT");
     initialTabIndex = _getInitialTabIndex(widget.initialCode);
     _tabController =
         TabController(length: 3, vsync: this, initialIndex: initialTabIndex);
-
     _tabController.addListener(() {
       setState(() {});
     });
@@ -60,52 +58,58 @@ class _AllRequestsTabBarState extends State<AllRequestsTabBar>
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        backgroundColor: ColorsManager.black,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Text(
-            "Requests",
-            style: Styles.Rubic500(fontSize: 18, color: ColorsManager.red),
+    return BlocProvider(
+      create: (context) => sl.get<RequestsCubit>(),
+      child: DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          backgroundColor: ColorsManager.black,
+          appBar: AppBar(
+            actions: [
+              IconButton(
+                onPressed: () => Navigator.of(context)
+                    .pushReplacementNamed(SaveRequestsView.routeName),
+                icon: const Icon(Icons.add, color: ColorsManager.red),
+              ),
+            ],
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            title: Text(
+              "Requests",
+              style: Styles.Rubic500(fontSize: 18, color: ColorsManager.red),
+            ),
+            leading: IconButton(
+              onPressed: () => Navigator.of(context)
+                  .pushReplacementNamed(HomeScreen.routeName),
+              icon: const Icon(Icons.arrow_back, color: ColorsManager.red),
+            ),
+            bottom: TabBar(
+              controller: _tabController,
+              indicator: const BoxDecoration(),
+              indicatorColor: Colors.transparent,
+              dividerColor: Colors.transparent,
+              labelColor: ColorsManager.red,
+              unselectedLabelColor: ColorsManager.borderColor,
+              labelStyle:
+                  TextStyle(fontSize: 11.sp, fontWeight: FontWeight.bold),
+              unselectedLabelStyle: TextStyle(fontSize: 11.sp),
+              labelPadding: EdgeInsets.symmetric(horizontal: 5.w),
+              tabs: [
+                _buildTab("Payments", 0),
+                _buildTab("Returns", 1),
+                _buildTab("Materials", 2),
+              ],
+            ),
           ),
-          leading: IconButton(
-            onPressed: ()
-
-             => Navigator.of(context).pushReplacementNamed(HomeScreen.routeName),
-            icon: const Icon(Icons.arrow_back, color: ColorsManager.red),
-          ),
-          bottom: TabBar(
+          body: TabBarView(
             controller: _tabController,
-            indicator: const BoxDecoration(),
-            indicatorColor: Colors.transparent,
-            dividerColor: Colors.transparent,
-            labelColor: ColorsManager.red,
-            unselectedLabelColor: ColorsManager.borderColor,
-            labelStyle: TextStyle(
-              fontSize: 11.sp,
-              fontWeight: FontWeight.bold,
-            ),
-            unselectedLabelStyle: TextStyle(
-              fontSize: 11.sp,
-            ),
-            labelPadding: EdgeInsets.symmetric(horizontal: 5.w),
-            tabs: [
-              _buildTab("Payments", 0),
-              _buildTab("Returns", 1),
-              _buildTab("Materials", 2),
+            children: const [
+              PaymentRequestsSection(),
+              ReturnsRequestsSection(),
+              MaterialsRequestsSection(),
             ],
           ),
-        ),
-        body: TabBarView(
-          controller: _tabController,
-          children: const [
-            PaymentRequestsSection(),
-            ReturnsRequestsSection(),
-            MaterialsRequestsSection()
-          ],
         ),
       ),
     );
