@@ -233,7 +233,7 @@ class _SaveRequestsViewState extends State<SaveRequestsView> {
                                           deliveryTypeCode:
                                               selectedDeliveryTypeCode,
                                           typeCode: selectedTypeCode,
-                                          // bankIndex: bankIndex, // Pass bank index
+                                        
                                         );
                                   } else {
                                     context
@@ -247,7 +247,6 @@ class _SaveRequestsViewState extends State<SaveRequestsView> {
                                           deliveryTypeCode:
                                               selectedDeliveryTypeCode,
                                           typeCode: selectedTypeCode,
-                                          // bankIndex: bankIndex, // Pass bank index
                                         );
                                   }
                                 } else {
